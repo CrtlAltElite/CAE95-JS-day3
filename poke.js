@@ -85,3 +85,55 @@ async function doAPICall(pokeName){
     tr.appendChild(td)
 
 }
+
+const mylist = JSON.parse(localStorage.getItem('mylist')) ?? ['Shayne','Katina','Jody', 'Alex']
+
+const setup=()=>{
+    const removeButton = document.createElement('button')
+    removeButton.innerText = "Remove"
+    document.body.appendChild(removeButton)
+ 
+    removeButton.addEventListener('click', (e)=>{   
+        const toRemove = document.getElementsByName('item')[0].value;
+        const indexToRemove = mylist.indexOf(toRemove);
+        if (indexToRemove>=0){
+            mylist.splice(indexToRemove,1);
+        }
+        localStorage.setItem('mylist', JSON.stringify(mylist));
+        update()
+    })
+
+    const addButton = document.createElement('button')
+    addButton.innerText = "Add"
+    document.body.appendChild(addButton)
+    addButton.addEventListener('click', (e)=>{
+         const toAdd = document.getElementsByName('item')[0].value; mylist.push(toAdd);
+         localStorage.setItem('mylist', JSON.stringify(mylist));
+         update()
+        })
+
+    const input = document.createElement('input')
+    input.placeholder ="Item"
+    input.name="item"
+    document.body.appendChild(input)
+
+    const ul = document.createElement('ul')
+    for (let o of mylist){
+        const li = document.createElement('li')
+        li.innerText = o
+        ul.appendChild(li)
+    }
+    document.body.appendChild(ul)   
+}
+
+const update=()=>{
+    const ul = document.getElementsByTagName('ul')[0]
+    ul.innerHTML=''
+    for (let o of mylist){
+        const li = document.createElement('li')
+        li.innerText = o
+        ul.appendChild(li)
+    }
+}
+
+setup()
